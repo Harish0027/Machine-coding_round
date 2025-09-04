@@ -16,7 +16,7 @@ const Comment = ({ comment }: { comment: CommentType }) => {
 
       {/* Replies */}
       {comment.reply.length > 0 && (
-        <div className="ml-6 border-l border-gray-300 dark:border-gray-600 pl-4 mt-2">
+        <div className="ml-6 border-l border-gray-300 dark:border-gray-600 pl-4 ">
           {comment.reply.map((rep) => (
             <Comment key={rep.id} comment={rep} />
           ))}
