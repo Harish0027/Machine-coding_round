@@ -54,6 +54,41 @@ export default function Home() {
     }
   };
 
+  const handleDelete = async (id: number) => {
+    try {
+      const res = await fetch(`/api/todo/${id}`, { method: "DELETE" });
+      const data = await res.json();
+
+      if (data.success) {
+        alert(data.message);
+        fetchTodos();
+      } else {
+        alert("Failed to delete todo");
+      }
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
+  };
+
+  const handleMark = async (id: number, isComplete: boolean) => {
+    try {
+      const res = await fetch(`/api/todo/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ isComplete: isComplete }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        alert(data.message);
+        fetchTodos();
+      } else {
+        alert("Failed to delete todo");
+      }
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
+  };
+
   return (
     <div className="font-sans flex flex-col items-center justify-center min-h-screen p-8 gap-6 bg-gray-100">
       <h1 className="text-3xl font-bold">Welcome to Todo</h1>
@@ -98,9 +133,15 @@ export default function Home() {
             <input
               type="checkbox"
               checked={todo.isComplete}
-              readOnly
+              onChange={() => handleMark(todo.id, !todo.isComplete)}
               className="w-5 h-5 accent-green-500"
             />
+            <button
+              className="text-red-600"
+              onClick={() => handleDelete(todo.id)}
+            >
+              X
+            </button>
           </div>
         ))}
       </div>
